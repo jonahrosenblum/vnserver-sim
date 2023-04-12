@@ -50,3 +50,14 @@ for filename, traces in zip(glob.glob('traces/*.trace'), traces_list):
     with open(os.path.join(os.getcwd(), filename + '.annotated'), 'w') as f:
         for trace in traces:
             f.write(trace)
+
+with open('traces/summary_stats.txt', 'w') as f:
+    total_overflows = 0
+    for entry in entry_map:
+        total_overflows += entry_map[entry].shared_counter
+    
+    f.write(f"Total overflows: {total_overflows}\n\n")
+    f.write("Page | Overflows\n")
+
+    for entry in entry_map:
+        f.write(f"{hex(entry)} {entry_map[entry].shared_counter}\n")
